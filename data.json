@@ -1,4 +1,4 @@
-{"meta":{"updated":"2026-11-04T16:30:00-05:00","house":{"D":230,"R":168,"I":0},"houseBefore":{"D":214,"R":219},"senNotUp":{"D":34,"R":31},"govNotUp":{"D":6,"R":8},"sources":[["NBC News","https://www.nbcnews.com/politics/2026-elections/senate-results"],["Fox News","https://www.foxnews.com/elections/2026/midterm-results/senate"],["CBS News","https://www.cbsnews.com/live-updates/election-day-2026-midterms/"],["ABC News","https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085"]],"control":{"house":{"w":"D","by":"NBC, CNN, ABC, CBS, AP"},"senate":{"w":"D","by":"NBC, AP, CNN, CBS, ABC, Fox"}}},
+{"meta":{"updated":"2026-11-04T17:29:00-05:00","house":{"D":230,"R":168,"I":0},"houseBefore":{"D":214,"R":219},"senNotUp":{"D":34,"R":31},"govNotUp":{"D":6,"R":8},"sources":[["NBC News","https://www.nbcnews.com/politics/2026-elections/senate-results"],["Fox News","https://www.foxnews.com/elections/2026/midterm-results/senate"],["CBS News","https://www.cbsnews.com/live-updates/election-day-2026-midterms/"],["ABC News","https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085"]],"control":{"house":{"w":"D","by":"NBC, CNN, ABC, CBS, AP"},"senate":{"w":"D","by":"NBC, AP, CNN, CBS, ABC, Fox"}}},
 "races":[
 {"id":"sen-AL","o":"sen","st":"AL","inc":"R","c":[["Everett Wess","D",45.3,0],["Barry Moore","R",54.7,0]],"rep":98.7,"s":"call","w":"R","by":"NBC, Fox"},
 {"id":"sen-AK","o":"sen","st":"AK","inc":"R","key":1,"c":[["Mary Peltola","D",48.2,0],["Dan Sullivan","R",47.9,1]],"rep":74.3,"s":"count"},
@@ -17,7 +17,7 @@
 {"id":"sen-MA","o":"sen","st":"MA","inc":"D","c":[["Ed Markey","D",63.4,1],["John Deaton","R",32.1,0]],"rep":91.2,"s":"call","w":"D","by":"NBC, Fox"},
 {"id":"sen-MI","o":"sen","st":"MI","inc":"D","key":1,"c":[["Abdul El-Sayed","D",52.5,0],["Mike Rogers","R",45.5,0]],"rep":96.8,"s":"call","w":"D","by":"NBC, ABC, CBS, AP, Fox"},
 {"id":"sen-MN","o":"sen","st":"MN","inc":"D","c":[["Peggy Flanagan","D",53.7,0],["Michele Tafoya","R",43.5,0]],"rep":100,"s":"call","w":"D","by":"NBC, AP, Fox, CBS"},
-{"id":"sen-MS","o":"sen","st":"MS","inc":"R","c":[["Scott Colom","D",49.0,0],["Cindy Hyde-Smith","R",48.9,1]],"rep":95.6,"s":"count"},
+{"id":"sen-MS","o":"sen","st":"MS","inc":"R","c":[["Scott Colom","D",49.0,0],["Cindy Hyde-Smith","R",48.9,1]],"rep":96,"s":"count"},
 {"id":"sen-MT","o":"sen","st":"MT","inc":"R","c":[["Alani Bankhead","D",null,0],["Kurt Alme","R",49.0,0]],"rep":90.4,"s":"call","w":"R","by":"NBC, Fox"},
 {"id":"sen-NE","o":"sen","st":"NE","inc":"R","c":[["Dan Osborn","I",43.7,0],["Pete Ricketts","R",50.4,1]],"rep":99,"s":"call","w":"R","by":"NBC, CBS, Fox, AP"},
 {"id":"sen-NH","o":"sen","st":"NH","inc":"D","key":1,"c":[["Chris Pappas","D",56.2,0],["John E. Sununu","R",42.0,0]],"rep":90.9,"s":"call","w":"D","by":"NBC, AP, CBS, Fox"},
