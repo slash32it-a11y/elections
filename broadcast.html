@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Midterm Results Broadcast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;800;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Broadcast layout: fixed 1920x1080 stage scaled to the window. Featured race rotates left; balance of power + map right; ticker of calls along the bottom. Single dark theme for TV. */
+:root{
+  --bg:#0b0e14; --panel:#141924; --panel2:#1b2130; --ink:#f2f4f8; --muted:#97a1b3; --line:#283043;
+  --dem:#3d7bf0; --dem-soft:#1f3560; --rep:#ef4b54; --rep-soft:#5b2329; --ind:#a97ee8; --ind-soft:#3b2b58;
+  --none:#1f2533; --wait:#323a4c; --live:#ff3b52; --gold:#ffcf4a;
+  --display:"Libre Franklin","Helvetica Neue",Arial,sans-serif; --body:"Source Sans 3","Segoe UI",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#000;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--bg);color:var(--ink);font-family:var(--body);font-variant-numeric:tabular-nums;display:grid;grid-template-rows:96px 1fr 72px;}
+.top{display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:linear-gradient(90deg,#101624,#0b0e14);border-bottom:2px solid var(--line)}
+.brand{display:flex;align-items:center;gap:22px}
+.brand h1{font-family:var(--display);font-weight:900;font-size:44px;margin:0;letter-spacing:-.01em}
+.live{display:inline-flex;align-items:center;gap:10px;background:var(--live);color:#fff;font-weight:800;font-size:22px;letter-spacing:.1em;padding:6px 16px;border-radius:6px}
+.live i{width:12px;height:12px;border-radius:50%;background:#fff;animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.25}}
+.clock{text-align:right}
+.clock b{display:block;font-family:var(--display);font-size:40px;font-weight:800}
+.clock span{color:var(--muted);font-size:20px}
+.main{display:grid;grid-template-columns:1080px 1fr;gap:28px;padding:28px 48px;min-height:0;overflow:hidden}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.feature{min-height:0;padding:40px 48px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.feature .office{font-size:28px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.feature h2{font-family:var(--display);font-weight:900;font-size:96px;line-height:1;margin:8px 0 18px}
+.pill{display:inline-block;font-weight:800;font-size:24px;letter-spacing:.06em;text-transform:uppercase;padding:6px 16px;border-radius:8px;border:2px solid var(--muted);color:var(--muted)}
+.pill.D{background:var(--dem);border-color:var(--dem);color:#fff}.pill.R{background:var(--rep);border-color:var(--rep);color:#fff}.pill.I{background:var(--ind);border-color:var(--ind);color:#fff}
+.pill.count{border-color:var(--gold);color:var(--gold)}
+.cands{display:grid;gap:34px;margin-top:44px}
+.cand .row{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.cand .nm{font-family:var(--display);font-weight:800;font-size:52px}
+.cand .nm small{display:block;font-family:var(--body);font-weight:600;font-size:24px;color:var(--muted);margin-top:4px}
+.cand .pc{font-family:var(--display);font-weight:900;font-size:72px}
+.cand .pb{height:22px;background:var(--none);border-radius:11px;overflow:hidden;margin-top:12px}
+.cand .pb div{height:100%;border-radius:11px;transition:width .8s ease}
+.check{color:var(--gold)}
+.foot{margin-top:auto;display:flex;justify-content:space-between;color:var(--muted);font-size:24px}
+.dots{display:flex;gap:8px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--wait)}
+.dots i.on{background:var(--ink)}
+.side{display:grid;grid-template-rows:auto 1fr;gap:20px;min-height:0}
+.bals{padding:22px 32px;display:grid;gap:16px}
+.bal .h{display:flex;justify-content:space-between;align-items:baseline}
+.bal .h b{font-family:var(--display);font-size:30px;font-weight:800}
+.bal .h span{color:var(--muted);font-size:20px}
+.bal .n{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 8px}
+.bal .n .d{color:var(--dem);font-family:var(--display);font-weight:900;font-size:44px;line-height:1}
+.bal .n .r{color:var(--rep);font-family:var(--display);font-weight:900;font-size:44px;line-height:1}
+.bal .n .m{color:var(--muted);font-size:20px;text-align:center}
+.bar{position:relative;display:flex;height:26px;border-radius:6px;overflow:hidden;background:var(--none)}
+.bar div{height:100%}
+.bar .mark{position:absolute;top:-5px;bottom:-5px;width:3px;background:var(--ink)}
+.mapbox{padding:18px 32px;display:flex;flex-direction:column;min-height:0}
+.mapbox .h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.mapbox .h b{font-family:var(--display);font-size:30px;font-weight:800}
+.mapbox .h span{color:var(--muted);font-size:20px}
+.map{display:grid;grid-template-columns:repeat(12,38px);grid-auto-rows:34px;gap:4px;justify-content:center}
+.tile{border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;background:var(--none);color:#59627a}
+.tile.wait{background:var(--wait);color:var(--ink)}
+.tile.lead-D{background:var(--dem-soft);color:#cfe0ff}.tile.lead-R{background:var(--rep-soft);color:#ffd5d8}.tile.lead-I{background:var(--ind-soft);color:#eadcff}
+.tile.win-D{background:var(--dem);color:#fff}.tile.win-R{background:var(--rep);color:#fff}.tile.win-I{background:var(--ind);color:#fff}
+.tile.feat{outline:3px solid var(--gold);outline-offset:1px}
+.ticker{display:flex;align-items:center;background:var(--panel2);border-top:2px solid var(--line);overflow:hidden}
+.ticker .lab{flex:none;height:100%;display:flex;align-items:center;padding:0 28px;background:var(--gold);color:#111;font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:.06em}
+.ticker .track{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:100%}
+.ticker .run{position:absolute;top:0;height:100%;display:flex;align-items:center;gap:56px;font-size:28px;font-weight:600;white-space:nowrap;animation:scroll linear infinite}
+.ticker .run b{font-family:var(--display);font-weight:800}
+.ticker .run .D{color:#8fb4ff}.ticker .run .R{color:#ff9aa0}.ticker .run .I{color:#d2b6ff}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.disc{flex:none;padding:0 28px;color:var(--muted);font-size:18px;text-align:right;line-height:1.2}
+@media (prefers-reduced-motion:reduce){.ticker .run{animation:none}.live i{animation:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="top">
+    <div class="brand"><h1>2026 Midterm Results</h1><span class="live"><i></i>LIVE</span></div>
+    <div class="clock"><b id="clock">—</b><span id="updated">Updated —</span></div>
+  </div>
+  <div class="main">
+    <section class="panel feature" id="feature"></section>
+    <div class="side">
+      <section class="panel bals" id="bals"></section>
+      <section class="panel mapbox"><div class="h"><b id="mapTitle">Senate map</b><span>Solid = called · light = leading</span></div><div class="map" id="map"></div></section>
+    </div>
+  </div>
+  <div class="ticker"><div class="lab">RACE CALLS</div><div class="track"><div class="run" id="run"></div></div><div class="disc">Unofficial · projections by AP, NBC, CBS, ABC, Fox<br>elections.slash32.ca</div></div>
+</div>
+<script>
+/*DATA-START*/
+const DATA = {"meta":{"updated": "2026-11-03T19:25:00-05:00", "house": {"D": 8, "R": 2, "I": 0}, "houseBefore": {"D": 214, "R": 219}, "senNotUp": {"D": 34, "R": 31}, "govNotUp": {"D": 6, "R": 8}, "sources": [["NBC News", "https://www.nbcnews.com/politics/2026-elections/senate-results"], ["Fox News", "https://www.foxnews.com/elections/2026/midterm-results/senate"], ["CBS News", "https://www.cbsnews.com/live-updates/election-day-2026-midterms/"], ["ABC News", "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085"]]},
+"races":[
+{"id": "sen-AL", "o": "sen", "st": "AL", "inc": "R", "c": [["Everett Wess", "D", null, 0], ["Barry Moore", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-AK", "o": "sen", "st": "AK", "inc": "R", "key": 1, "c": [["Mary Peltola", "D", null, 0], ["Gerald Heikes", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-AR", "o": "sen", "st": "AR", "inc": "R", "c": [["Hallie Shoffner", "D", null, 0], ["Tom Cotton", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-CO", "o": "sen", "st": "CO", "inc": "D", "c": [["John Hickenlooper", "D", null, 1], ["Mark Baisley", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-DE", "o": "sen", "st": "DE", "inc": "D", "c": [["Chris Coons", "D", null, 1], ["Michael Katz", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-FL", "o": "sen", "st": "FL", "inc": "R", "sp": 1, "c": [["Angie Nixon", "D", null, 0], ["Ashley Moody", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-GA", "o": "sen", "st": "GA", "inc": "D", "key": 1, "c": [["Jon Ossoff", "D", 72, 1], ["Mike Collins", "R", 28, 0]], "rep": null, "s": "count"},
+{"id": "sen-ID", "o": "sen", "st": "ID", "inc": "R", "c": [["Todd Achilles", "I", null, 0], ["Jim Risch", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-IL", "o": "sen", "st": "IL", "inc": "D", "c": [["Juliana Stratton", "D", null, 0], ["Don Tracy", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-IA", "o": "sen", "st": "IA", "inc": "R", "key": 1, "c": [["Josh Turek", "D", null, 0], ["Ashley Hinson", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-KS", "o": "sen", "st": "KS", "inc": "R", "c": [["Adam Hamilton", "D", null, 0], ["Roger Marshall", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-KY", "o": "sen", "st": "KY", "inc": "R", "c": [["Charles Booker", "D", 36.4, 0], ["Andy Barr", "R", 61.8, 0]], "rep": null, "s": "count"},
+{"id": "sen-LA", "o": "sen", "st": "LA", "inc": "R", "c": [["Jamie Davis", "D", null, 0], ["Julia Letlow", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-ME", "o": "sen", "st": "ME", "inc": "R", "key": 1, "c": [["Troy Jackson", "D", null, 0], ["Susan Collins", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-MA", "o": "sen", "st": "MA", "inc": "D", "c": [["Ed Markey", "D", null, 1], ["John Deaton", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-MI", "o": "sen", "st": "MI", "inc": "D", "key": 1, "c": [["Abdul El-Sayed", "D", null, 0], ["Mike Rogers", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-MN", "o": "sen", "st": "MN", "inc": "D", "c": [["Peggy Flanagan", "D", null, 0], ["Michele Tafoya", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-MS", "o": "sen", "st": "MS", "inc": "R", "c": [["Scott Colom", "D", null, 0], ["Cindy Hyde-Smith", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-MT", "o": "sen", "st": "MT", "inc": "R", "c": [["Alani Bankhead", "D", null, 0], ["Kurt Alme", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-NE", "o": "sen", "st": "NE", "inc": "R", "c": [["Chuck Conboy", "I", null, 0], ["Pete Ricketts", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-NH", "o": "sen", "st": "NH", "inc": "D", "key": 1, "c": [["Chris Pappas", "D", null, 0], ["John E. Sununu", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-NJ", "o": "sen", "st": "NJ", "inc": "D", "c": [["Cory Booker", "D", null, 1], ["Justin Murphy", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-NM", "o": "sen", "st": "NM", "inc": "D", "c": [["Ben Ray Luján", "D", null, 1], ["Larry Marker", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-NC", "o": "sen", "st": "NC", "inc": "R", "key": 1, "c": [["Roy Cooper", "D", null, 0], ["Michael Whatley", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-OH", "o": "sen", "st": "OH", "inc": "R", "sp": 1, "key": 1, "c": [["Sherrod Brown", "D", null, 0], ["Jon Husted", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-OK", "o": "sen", "st": "OK", "inc": "R", "c": [["N'Kiyla Thomas", "D", null, 0], ["Kevin Hern", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-OR", "o": "sen", "st": "OR", "inc": "D", "c": [["Jeff Merkley", "D", null, 1], ["David Smith", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-RI", "o": "sen", "st": "RI", "inc": "D", "c": [["Jack Reed", "D", null, 1], ["Raymond McKay", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-SC", "o": "sen", "st": "SC", "inc": "R", "c": [["Annie Andrews", "D", null, 0], ["Lindsey Graham", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-SD", "o": "sen", "st": "SD", "inc": "R", "c": [["Brian Bengs", "I", null, 0], ["Mike Rounds", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-TN", "o": "sen", "st": "TN", "inc": "R", "c": [["Marquita Bradshaw", "D", null, 0], ["Bill Hagerty", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-TX", "o": "sen", "st": "TX", "inc": "R", "key": 1, "c": [["James Talarico", "D", null, 0], ["Ken Paxton", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "sen-VA", "o": "sen", "st": "VA", "inc": "D", "c": [["Mark Warner", "D", null, 1], ["Bert Mizusawa", "R", null, 0]], "rep": null, "s": "call", "w": "D", "by": "AP, NBC, CBS, Fox"},
+{"id": "sen-WV", "o": "sen", "st": "WV", "inc": "R", "c": [["Rachel Anderson", "D", null, 0], ["Shelley Moore Capito", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "sen-WY", "o": "sen", "st": "WY", "inc": "R", "c": [["James Byrd", "D", null, 0], ["Harriet Hageman", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-AL", "o": "gov", "st": "AL", "inc": "R", "c": [["Doug Jones", "D", null, 0], ["Tommy Tuberville", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-AK", "o": "gov", "st": "AK", "inc": "R", "c": [["Jonathan Kreiss-Tomkins", "D", null, 0], ["Dave Bronson", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-AZ", "o": "gov", "st": "AZ", "inc": "D", "key": 1, "c": [["Katie Hobbs", "D", null, 1], ["Andy Biggs", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-AR", "o": "gov", "st": "AR", "inc": "R", "c": [["Fred Love", "D", null, 0], ["Sarah Huckabee Sanders", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-CA", "o": "gov", "st": "CA", "inc": "D", "c": [["Xavier Becerra", "D", null, 0], ["Steve Hilton", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-CO", "o": "gov", "st": "CO", "inc": "D", "c": [["Phil Weiser", "D", null, 0], ["Victor Marx", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-CT", "o": "gov", "st": "CT", "inc": "D", "c": [["Ned Lamont", "D", null, 1], ["Ryan Fazio", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-FL", "o": "gov", "st": "FL", "inc": "R", "c": [["David Jolly", "D", null, 0], ["Byron Donalds", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-GA", "o": "gov", "st": "GA", "inc": "R", "key": 1, "c": [["Keisha Lance Bottoms", "D", 67.5, 0], ["Rick Jackson", "R", 32.5, 0]], "rep": 20, "s": "count"},
+{"id": "gov-HI", "o": "gov", "st": "HI", "inc": "D", "c": [["Josh Green", "D", null, 1], ["Gary Cordery", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-ID", "o": "gov", "st": "ID", "inc": "R", "c": [["Terri Pickens", "D", null, 0], ["Brad Little", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-IL", "o": "gov", "st": "IL", "inc": "D", "c": [["JB Pritzker", "D", null, 1], ["Darren Bailey", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-IA", "o": "gov", "st": "IA", "inc": "R", "key": 1, "c": [["Rob Sand", "D", null, 0], ["Zach Lahn", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-KS", "o": "gov", "st": "KS", "inc": "D", "key": 1, "c": [["Cindy Holscher", "D", null, 0], ["Ty Masterson", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-ME", "o": "gov", "st": "ME", "inc": "D", "c": [["Hannah Pingree", "D", null, 0], ["Robert Charles", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-MD", "o": "gov", "st": "MD", "inc": "D", "c": [["Wes Moore", "D", null, 1], ["Dan Cox", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-MA", "o": "gov", "st": "MA", "inc": "D", "c": [["Maura Healey", "D", null, 1], ["Michael Minogue", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-MI", "o": "gov", "st": "MI", "inc": "D", "key": 1, "c": [["Jocelyn Benson", "D", null, 0], ["John James", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-MN", "o": "gov", "st": "MN", "inc": "D", "c": [["Amy Klobuchar", "D", null, 0], ["Lisa Demuth", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-NE", "o": "gov", "st": "NE", "inc": "R", "c": [["Lynne Walz", "D", null, 0], ["Jim Pillen", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-NV", "o": "gov", "st": "NV", "inc": "R", "key": 1, "c": [["Aaron Ford", "D", null, 0], ["Joe Lombardo", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-NH", "o": "gov", "st": "NH", "inc": "R", "c": [["Cinde Warmington", "D", null, 0], ["Kelly Ayotte", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-NM", "o": "gov", "st": "NM", "inc": "D", "c": [["Deb Haaland", "D", null, 0], ["Gregg Hull", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-NY", "o": "gov", "st": "NY", "inc": "D", "c": [["Kathy Hochul", "D", null, 1], ["Bruce Blakeman", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-OH", "o": "gov", "st": "OH", "inc": "R", "c": [["Amy Acton", "D", null, 0], ["Vivek Ramaswamy", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-OK", "o": "gov", "st": "OK", "inc": "R", "c": [["Cyndi Munson", "D", null, 0], ["Mike Mazzei", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-OR", "o": "gov", "st": "OR", "inc": "D", "c": [["Tina Kotek", "D", null, 1], ["Christine Drazan", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-PA", "o": "gov", "st": "PA", "inc": "D", "key": 1, "c": [["Josh Shapiro", "D", null, 1], ["Stacy Garrity", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-RI", "o": "gov", "st": "RI", "inc": "D", "c": [["Helena Foulkes", "D", null, 0], ["Aaron Guckian", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-SC", "o": "gov", "st": "SC", "inc": "R", "c": [["Jermaine Johnson", "D", null, 0], ["Alan Wilson", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-SD", "o": "gov", "st": "SD", "inc": "R", "c": [["Dan Ahlers", "D", null, 0], ["Larry Rhoden", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-TN", "o": "gov", "st": "TN", "inc": "R", "c": [["Jerri Green", "D", null, 0], ["Marsha Blackburn", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-TX", "o": "gov", "st": "TX", "inc": "R", "c": [["Gina Hinojosa", "D", null, 0], ["Greg Abbott", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-VT", "o": "gov", "st": "VT", "inc": "R", "c": [["Amanda Janoo", "D", null, 0], ["Phil Scott", "R", null, 1]], "rep": null, "s": "wait"},
+{"id": "gov-WI", "o": "gov", "st": "WI", "inc": "D", "key": 1, "c": [["David Crowley", "D", null, 0], ["Tom Tiffany", "R", null, 0]], "rep": null, "s": "wait"},
+{"id": "gov-WY", "o": "gov", "st": "WY", "inc": "R", "c": [["Kenneth Casner", "D", null, 0], ["Eric Barlow", "R", null, 0]], "rep": null, "s": "wait"}
+]};
+/*DATA-END*/
+</script>
+<script>
+(function(){
+const NAMES={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+const GRID=[["AK",0,0],["ME",11,0],["WI",6,1],["VT",10,1],["NH",11,1],["WA",1,2],["ID",2,2],["MT",3,2],["ND",4,2],["MN",5,2],["IL",6,2],["MI",7,2],["NY",9,2],["MA",10,2],["OR",1,3],["NV",2,3],["WY",3,3],["SD",4,3],["IA",5,3],["IN",6,3],["OH",7,3],["PA",8,3],["NJ",9,3],["CT",10,3],["RI",11,3],["CA",1,4],["UT",2,4],["CO",3,4],["NE",4,4],["MO",5,4],["KY",6,4],["WV",7,4],["VA",8,4],["MD",9,4],["DE",10,4],["AZ",2,5],["NM",3,5],["KS",4,5],["AR",5,5],["TN",6,5],["NC",7,5],["SC",8,5],["OK",4,6],["LA",5,6],["MS",6,6],["AL",7,6],["GA",8,6],["HI",0,7],["TX",4,7],["FL",9,7]];
+const PN={D:"Democrat",R:"Republican",I:"Independent"};
+const COL={D:"var(--dem)",R:"var(--rep)",I:"var(--ind)"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let data=DATA, idx=0, mapOffice="sen", tick=0;
+
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);const st=$("stage");st.style.transform="scale("+s+")";st.style.left=((innerWidth-1920*s)/2)+"px";st.style.top=((innerHeight-1080*s)/2)+"px";}
+addEventListener("resize",fit); fit();
+
+function leader(r){ if(r.s==="call") return r.w; const p=r.c.filter(c=>c[2]!=null); return p.length?p.slice().sort((a,b)=>b[2]-a[2])[0][1]:null; }
+const flip=r=>r.s==="call"&&r.w&&r.inc&&r.w!==r.inc;
+function tally(o){const t={D:0,R:0,I:0,ldD:0,ldR:0,ldI:0,un:0};data.races.filter(r=>r.o===o).forEach(r=>{if(r.s==="call"&&r.w)t[r.w]++;else{const l=leader(r);if(l)t["ld"+l]++;else t.un++;}});return t;}
+function bar(segs,total,mark){return '<div class="bar">'+segs.filter(s=>s[1]>0).map(s=>'<div style="width:'+(s[1]/total*100)+'%;background:'+s[0]+'"></div>').join("")+'<div class="mark" style="left:calc('+(mark/total*100)+'% - 1px)"></div></div>';}
+function bal(title,sub,d,r,mid,segs,total,mark){return '<div class="bal"><div class="h"><b>'+title+'</b><span>'+sub+'</span></div><div class="n"><span class="d">'+d+'</span><span class="m">'+mid+'</span><span class="r">'+r+'</span></div>'+bar(segs,total,mark)+'</div>';}
+
+// Featured rotation: races with votes or calls first (key races prioritised), then key races still waiting.
+function rotation(){
+  const rs=data.races;
+  const active=rs.filter(r=>r.s!=="wait").sort((a,b)=>(b.key||0)-(a.key||0));
+  const waitingKey=rs.filter(r=>r.s==="wait"&&r.key);
+  const list=active.concat(waitingKey);
+  return list.length?list:rs.slice(0,8);
+}
+function renderFeature(){
+  const list=rotation(); if(idx>=list.length) idx=0;
+  const r=list[idx];
+  mapOffice=r.o;
+  let pill=r.s==="call"?'<span class="pill '+r.w+'">'+PN[r.w]+' wins'+(flip(r)?' · pickup':'')+'</span>':r.s==="count"?'<span class="pill count">Too early to call'+(r.rep!=null?' · '+r.rep+'% in':'')+'</span>':'<span class="pill">Awaiting results</span>';
+  const cands=r.c.slice().sort((a,b)=>(b[2]||0)-(a[2]||0)).map(c=>{
+    const won=r.s==="call"&&r.w===c[1];
+    return '<div class="cand"><div class="row"><div class="nm">'+(won?'<span class="check">✓ </span>':'')+esc(c[0])+'<small>'+PN[c[1]]+(c[3]?' · incumbent':'')+'</small></div><div class="pc">'+(c[2]!=null?c[2].toFixed(1)+'%':'—')+'</div></div><div class="pb"><div style="width:'+(c[2]||0)+'%;background:'+COL[c[1]]+'"></div></div></div>';
+  }).join("");
+  $("feature").innerHTML='<div class="office">'+(r.o==="sen"?"U.S. Senate"+(r.sp?" · special":""):"Governor")+'</div><h2>'+NAMES[r.st]+'</h2><div>'+pill+'</div><div class="cands">'+cands+'</div>'+
+   '<div class="foot"><span>Seat held by '+PN[r.inc]+'s'+(r.s==="call"&&r.by?' · called by '+esc(r.by):'')+'</span><span class="dots">'+list.slice(0,14).map((_,i)=>'<i class="'+(i===idx?'on':'')+'"></i>').join("")+'</span></div>';
+  renderMap(r);
+}
+function renderMap(feat){
+  $("mapTitle").textContent=(mapOffice==="sen"?"Senate":"Governor")+" map";
+  $("map").innerHTML=GRID.map(([st,c,rw])=>{
+    const r=data.races.find(x=>x.o===mapOffice&&x.st===st);
+    let cl="tile";
+    if(r){ if(r.s==="call"&&r.w) cl+=" win-"+r.w; else { const l=leader(r); cl+=l?" lead-"+l:" wait"; } }
+    if(feat&&feat.st===st&&feat.o===mapOffice) cl+=" feat";
+    return '<div class="'+cl+'" style="grid-column:'+(c+1)+';grid-row:'+(rw+1)+'">'+st+'</div>';
+  }).join("");
+}
+function renderBals(){
+  const m=data.meta, s=tally("sen"), g=tally("gov"), h=m.house;
+  const sD=m.senNotUp.D+s.D, sR=m.senNotUp.R+s.R, gD=m.govNotUp.D+g.D, gR=m.govNotUp.R+g.R;
+  $("bals").innerHTML=
+   bal("Senate","51 for control",sD,sR,s.un+" awaiting",[["var(--dem)",sD],["var(--dem-soft)",s.ldD],["var(--ind)",s.I+s.ldI],["var(--none)",s.un],["var(--rep-soft)",s.ldR],["var(--rep)",sR]],100,50)+
+   bal("House","218 for majority",h.D,h.R,(435-h.D-h.R-h.I)+" uncalled",[["var(--dem)",h.D],["var(--ind)",h.I],["var(--none)",435-h.D-h.R-h.I],["var(--rep)",h.R]],435,218)+
+   bal("Governors","36 races",gD,gR,g.un+" awaiting",[["var(--dem)",gD],["var(--dem-soft)",g.ldD],["var(--ind)",g.I],["var(--none)",g.un],["var(--rep-soft)",g.ldR],["var(--rep)",gR]],50,25);
+}
+let lastTicker="";
+function renderTicker(){
+  const called=data.races.filter(r=>r.s==="call");
+  const items=called.length?called.map(r=>{const w=r.c.find(c=>c[1]===r.w);return '<span><b>'+r.st+' '+(r.o==="sen"?"SEN":"GOV")+'</b> <span class="'+r.w+'">'+esc(w?w[0]:PN[r.w])+' ('+r.w+')</span> '+(flip(r)?'flips the seat':'wins')+'</span>';}):['<span>No races called yet · polls are closing across the country</span>'];
+  const leads=data.races.filter(r=>r.s==="count").map(r=>{const l=r.c.slice().sort((a,b)=>(b[2]||0)-(a[2]||0))[0];return '<span><b>'+r.st+' '+(r.o==="sen"?"SEN":"GOV")+'</b> '+esc(l[0])+' leads'+(l[2]!=null?' '+l[2].toFixed(1)+'%':'')+'</span>';});
+  const html=items.concat(leads).join("");
+  if(html===lastTicker) return; lastTicker=html;
+  const run=$("run"); run.innerHTML=html+html;
+  requestAnimationFrame(()=>{run.style.animationDuration=Math.max(20,run.scrollWidth/2/90)+"s";});
+}
+function renderClock(){
+  const now=new Date();
+  $("clock").textContent=now.toLocaleTimeString("en-US",{timeZone:"America/New_York",hour:"numeric",minute:"2-digit"})+" ET";
+  const t=new Date(data.meta.updated), mins=Math.max(0,Math.round((now-t)/60000));
+  $("updated").textContent="Results updated "+t.toLocaleTimeString("en-US",{timeZone:"America/New_York",hour:"numeric",minute:"2-digit"})+" ET"+(mins>0?" ("+mins+" min ago)":"");
+}
+function renderAll(){renderBals();renderFeature();renderTicker();renderClock();}
+async function poll(){
+  try{const res=await fetch("data.json?t="+Date.now(),{cache:"no-store"}); if(!res.ok) return; const d=await res.json(); if(d&&d.races&&(!data||d.meta.updated!==data.meta.updated)){data=d;renderAll();}}catch(e){}
+}
+async function start(){
+  if(!data) await poll();
+  if(!data){ $("feature").innerHTML='<h2 style="font-size:56px">Waiting for results data…</h2><div class="office">Host this page next to data.json</div>'; setTimeout(start,10000); return; }
+  renderAll();
+  setInterval(()=>{idx++;renderFeature();},9000);
+  setInterval(renderClock,15000);
+  setInterval(poll,60000);
+}
+start();
+})();
+</script>
+</body>
+</html>
