@@ -1,4 +1,4 @@
-{"meta":{"updated": "2026-11-03T21:51:00-05:00", "house": {"D": 104, "R": 50, "I": 0}, "houseBefore": {"D": 214, "R": 219}, "senNotUp": {"D": 34, "R": 31}, "govNotUp": {"D": 6, "R": 8}, "sources": [["NBC News", "https://www.nbcnews.com/politics/2026-elections/senate-results"], ["Fox News", "https://www.foxnews.com/elections/2026/midterm-results/senate"], ["CBS News", "https://www.cbsnews.com/live-updates/election-day-2026-midterms/"], ["ABC News", "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085"]]},
+{"meta":{"updated": "2026-11-03T22:03:00-05:00", "house": {"D": 111, "R": 56, "I": 0}, "houseBefore": {"D": 214, "R": 219}, "senNotUp": {"D": 34, "R": 31}, "govNotUp": {"D": 6, "R": 8}, "sources": [["NBC News", "https://www.nbcnews.com/politics/2026-elections/senate-results"], ["Fox News", "https://www.foxnews.com/elections/2026/midterm-results/senate"], ["CBS News", "https://www.cbsnews.com/live-updates/election-day-2026-midterms/"], ["ABC News", "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085"]]},
 "races":[
 {"id": "sen-AL", "o": "sen", "st": "AL", "inc": "R", "c": [["Everett Wess", "D", 41.9, 0], ["Barry Moore", "R", 58.1, 0]], "rep": 3.8, "s": "count"},
 {"id": "sen-AK", "o": "sen", "st": "AK", "inc": "R", "key": 1, "c": [["Mary Peltola", "D", null, 0], ["Dan Sullivan", "R", null, 1]], "rep": null, "s": "wait"},
@@ -28,7 +28,7 @@
 {"id": "sen-OK", "o": "sen", "st": "OK", "inc": "R", "c": [["N'Kiyla Thomas", "D", null, 0], ["Kevin Hern", "R", null, 0]], "rep": null, "s": "wait"},
 {"id": "sen-OR", "o": "sen", "st": "OR", "inc": "D", "c": [["Jeff Merkley", "D", null, 1], ["David Smith", "R", null, 0]], "rep": null, "s": "wait"},
 {"id": "sen-RI", "o": "sen", "st": "RI", "inc": "D", "c": [["Jack Reed", "D", 57.7, 1], ["Raymond McKay", "R", 38.0, 0]], "rep": 0.8, "s": "call", "w": "D", "by": "Fox"},
-{"id": "sen-SC", "o": "sen", "st": "SC", "inc": "R", "c": [["Annie Andrews", "D", 51.2, 0], ["Lindsey Graham", "R", 46.8, 1]], "rep": 81.9, "s": "count"},
+{"id": "sen-SC", "o": "sen", "st": "SC", "inc": "R", "c": [["Annie Andrews", "D", 51.2, 0], ["Lindsey Graham", "R", 46.8, 1]], "rep": 81.9, "s": "call", "w": "D", "by": "NBC"},
 {"id": "sen-SD", "o": "sen", "st": "SD", "inc": "R", "c": [["Brian Bengs", "I", null, 0], ["Mike Rounds", "R", null, 1]], "rep": null, "s": "wait"},
 {"id": "sen-TN", "o": "sen", "st": "TN", "inc": "R", "c": [["Marquita Bradshaw", "D", null, 0], ["Bill Hagerty", "R", null, 1]], "rep": null, "s": "wait"},
 {"id": "sen-TX", "o": "sen", "st": "TX", "inc": "R", "key": 1, "c": [["James Talarico", "D", 59.6, 0], ["Ken Paxton", "R", 38.9, 0]], "rep": 53.2, "s": "count"},
