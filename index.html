@@ -322,6 +322,7 @@ function bar(segs,total,markAt){
   h+='<div class="mark" style="left:calc('+(markAt/total*100)+'% - 1px)"></div></div>';
   return h;
 }
+function ctlHtml(k){const c=(meta.control||{})[k];return c?'<span class="pill call-'+c.w+'">'+(c.w==="D"?"Democrats":"Republicans")+" win control · "+esc(c.by)+"</span>":null;}
 function balanceCard(el,title,subtitle,dTotal,rTotal,midHtml,segs,total,markAt,note){
   el.innerHTML='<div class="bal-head"><h2>'+title+'</h2><small>'+subtitle+'</small></div>'+
   '<div class="nums"><div class="num d">'+dTotal+'<span>Democrats</span></div><div class="mid">'+midHtml+'</div><div class="num r">'+rTotal+'<span>Republicans</span></div></div>'+
@@ -331,12 +332,12 @@ function balanceCard(el,title,subtitle,dTotal,rTotal,midHtml,segs,total,markAt,n
 function renderBalance(){
   const s=tally("sen");
   const sD=meta.senNotUp.D+s.D, sR=meta.senNotUp.R+s.R;
-  balanceCard($("balSenate"),"Senate","100 seats · 35 on ballot",sD,sR,
+  balanceCard($("balSenate"),"Senate",ctlHtml("senate")||"100 seats · 35 on ballot",sD,sR,
     '<b>51</b>for control',
     [["d",sD,"Democrats"],["dl",s.ldD,"Democrats leading"],["i",s.I+s.ldI,"Independents"],["u",s.un,"Awaiting"],["rl",s.ldR,"Republicans leading"],["r",sR,"Republicans"]],100,50,
     'Includes '+meta.senNotUp.D+' D and '+meta.senNotUp.R+' R seats not up this year (independents who caucus with Democrats are counted as D). A 50–50 split is broken by the Vice President (R). '+(s.I?s.I+' independent win(s) not assigned to a party. ':'')+s.un+' races awaiting results.');
   const h=meta.house, hu=435-h.D-h.R-h.I;
-  balanceCard($("balHouse"),"House","435 seats · all on ballot",h.D,h.R,
+  balanceCard($("balHouse"),"House",ctlHtml("house")||"435 seats · all on ballot",h.D,h.R,
     '<b>218</b>for majority',
     [["d",h.D,"Democrats"],["i",h.I,"Independents"],["u",hu,"Uncalled"],["r",h.R,"Republicans"]],435,218,
     hu+' seats uncalled. Before the election: '+meta.houseBefore.R+' R (incl. one independent) and '+meta.houseBefore.D+' D, with vacancies.');

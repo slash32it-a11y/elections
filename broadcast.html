@@ -106,6 +106,7 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden}
 .call span{font-size:17px;color:var(--muted);font-weight:600}
 .call .tag{font-size:16px;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:6px;background:var(--gold);color:#111}
 .empty{color:var(--muted);font-size:20px;padding:8px 2px}
+.ctlchip{font-weight:800;font-size:17px;letter-spacing:.05em;padding:4px 10px;border-radius:6px;color:#fff !important}.ctlchip.D{background:var(--dem)}.ctlchip.R{background:var(--rep)}
 
 /* Ticker */
 .ticker{display:flex;align-items:center;background:var(--panel2);border-top:1px solid var(--line);overflow:hidden}
@@ -251,12 +252,13 @@ function bar(segs,total,mark){return '<div class="bar">'+segs.filter(s=>s[1]>0).
 function score(cls,title,sub,d,r,midB,midS,segs,total,mark){
   return '<div class="score '+cls+'"><div class="h"><b>'+title+'</b><span>'+sub+'</span></div><div class="n"><div class="d">'+d+'<small>DEM</small></div><div class="m"><b>'+midB+'</b>'+midS+'</div><div class="r">'+r+'<small>REP</small></div></div>'+bar(segs,total,mark)+'</div>';
 }
+function ctl(k){const c=(data.meta.control||{})[k];return c?'<span class="ctlchip '+c.w+'">'+(c.w==="D"?"DEMOCRATS":"REPUBLICANS")+" WIN CONTROL · "+esc(c.by)+"</span>":null;}
 function renderBoard(){
   const m=data.meta,s=tally("sen"),g=tally("gov"),h=m.house;
   const sD=m.senNotUp.D+s.D,sR=m.senNotUp.R+s.R,gD=m.govNotUp.D+g.D,gR=m.govNotUp.R+g.R,hu=435-h.D-h.R-h.I;
   $("board").innerHTML=
-    score("","Senate","51 for control",sD,sR,(35-s.D-s.R-s.I),"races to call",[["var(--dem)",sD],["var(--dem-soft)",s.ldD],["var(--ind)",s.I+s.ldI],["var(--none)",s.un],["var(--rep-soft)",s.ldR],["var(--rep)",sR]],100,50)+
-    score("","House","218 for majority",h.D,h.R,hu,"seats to call",[["var(--dem)",h.D],["var(--ind)",h.I],["var(--none)",hu],["var(--rep)",h.R]],435,218)+
+    score("","Senate",ctl("senate")||"51 for control",sD,sR,(35-s.D-s.R-s.I),"races to call",[["var(--dem)",sD],["var(--dem-soft)",s.ldD],["var(--ind)",s.I+s.ldI],["var(--none)",s.un],["var(--rep-soft)",s.ldR],["var(--rep)",sR]],100,50)+
+    score("","House",ctl("house")||"218 for majority",h.D,h.R,hu,"seats to call",[["var(--dem)",h.D],["var(--ind)",h.I],["var(--none)",hu],["var(--rep)",h.R]],435,218)+
     score("small","Governors","36 races",gD,gR,(36-g.D-g.R-g.I),"to call",[["var(--dem)",gD],["var(--dem-soft)",g.ldD],["var(--ind)",g.I],["var(--none)",g.un],["var(--rep-soft)",g.ldR],["var(--rep)",gR]],50,25);
 }
 // Rotation: new calls and counting key races first, then other counting races, then key races still waiting.
@@ -309,7 +311,8 @@ function renderCalls(){
 function renderTicker(){
   const called=data.races.filter(r=>r.s==="call").map(r=>{const w=r.c.find(c=>c[1]===r.w);return '<span><b>'+r.st+' '+(r.o==="sen"?"SENATE":"GOV")+'</b> · <span class="'+r.w+'">'+esc(w?w[0]:PN[r.w])+' ('+r.w+')</span> '+(flip(r)?'flips the seat':'wins')+'</span>';});
   const leads=data.races.filter(r=>r.s==="count").map(r=>{const l=r.c.slice().sort((a,b)=>(b[2]||0)-(a[2]||0))[0];return '<span><b>'+r.st+' '+(r.o==="sen"?"SENATE":"GOV")+'</b> · <span class="'+l[1]+'">'+esc(l[0])+'</span> leads'+(l[2]!=null?' '+l[2].toFixed(1)+'%':'')+(r.rep!=null?', '+r.rep+'% in':'')+'</span>';});
-  const items=called.concat(leads); if(!items.length) items.push('<span>Polls are closing across the country · results will appear here as they come in</span>');
+  const ctlItems=Object.entries(data.meta.control||{}).map(([k,c])=>'<span><b>'+k.toUpperCase()+'</b> · <span class="'+c.w+'">'+(c.w==="D"?"Democrats":"Republicans")+' win control</span> ('+esc(c.by)+' projects)</span>');
+  const items=ctlItems.concat(called,leads); if(!items.length) items.push('<span>Polls are closing across the country · results will appear here as they come in</span>');
   const html=items.join("");
   if(html===lastTicker) return; lastTicker=html;
   const run=$("run"); run.innerHTML=html+html;
